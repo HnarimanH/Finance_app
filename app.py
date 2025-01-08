@@ -354,9 +354,20 @@ class app:
         self.labelAmount.place(x = 200 , y = 50)
         
         self.EnteryAmount = ctk.CTkEntry(
-            self.newf2f1,placeholder_text="Example: 35000",width=((self.rootwidth - 290) / 2 - 30) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 38)
+            self.newf2f1,placeholder_text="Example: 35000",width=((self.rootwidth - 290) / 2 - 30) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
         )
         self.EnteryAmount.place(x = 175, y = 150)
+        
+        
+        self.labelDate = ctk.CTkLabel(
+            self.newf2f1,text="Enter Date:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+        )
+        self.labelDate.place(x = 200 , y = 250)
+        
+        self.EnteryDate = ctk.CTkEntry(
+            self.newf2f1,placeholder_text="Example: 1999/11/9",width=((self.rootwidth - 290) / 2 - 30) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
+        )
+        self.EnteryDate.place(x = 175, y = 150)
     
     
     
@@ -368,7 +379,7 @@ class app:
     
     
     
-    def insert_info(self):
+    def date_picker(self):
         ...
     
     
