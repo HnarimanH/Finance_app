@@ -366,7 +366,7 @@ class app:
         
         
         self.combobox_year = ctk.CTkComboBox(
-            self.newf2f1,values=[str(year) for year in range(1950, 2026)], width=80,text_color="black",bg_color="#1971c2",fg_color="#a5d8ff"
+            self.newf2f1,values=[str(year) for year in range(1950, 2026)], width=80,text_color="black",bg_color="#a5d8ff",fg_color="#a5d8ff"
         )
         self.combobox_year.set("year")  # Set the default value
         self.combobox_year.place(x = 175, y = 350)
@@ -376,9 +376,9 @@ class app:
             "January", "February", "March", "April", "May", "June", 
             "July", "August", "September", "October", "November", "December"]
         self.combobox_month = ctk.CTkComboBox(
-            self.newf2f1,values=months, width=80,text_color="black",bg_color="#1971c2",fg_color="#a5d8ff"
+            self.newf2f1,values=months, width=80,text_color="black",bg_color="#a5d8ff",fg_color="#a5d8ff"
         )
-        self.combobox_month.bind("<<ComboboxSelected>>", self.cal_dayinmonth)
+
         self.combobox_month.set("month")  # Set the default value
         
         self.combobox_month.place(x = 305, y = 350)
