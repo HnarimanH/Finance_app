@@ -288,26 +288,7 @@ class app:
         
         for widget in self.root.winfo_children():
             widget.destroy()
-    def cal_dayinmonth(self):
-        selected_month = self.combobox_month.get()
-        days_in_month = {
-            "January": 31,
-            "February": 28,
-            "March": 31,
-            "April": 30,
-            "May": 31,
-            "June": 30,
-            "July": 31,
-            "August": 31,
-            "September": 30,
-            "October": 31,
-            "November": 30,
-            "December": 31
-        }
-        if selected_month in days_in_month:
-            print(f"{days_in_month[selected_month]} days in {selected_month}")
-        else:
-            print("Please select a valid month.")        
+        
 
         
         
@@ -416,7 +397,21 @@ class app:
     
     
     def date_picker(self):
-        ...
+        selected_month = self.combobox_month.get()
+        days_in_month = {
+            "January": 31,
+            "February": 28,
+            "March": 31,
+            "April": 30,
+            "May": 31,
+            "June": 30,
+            "July": 31,
+            "August": 31,
+            "September": 30,
+            "October": 31,
+            "November": 30,
+            "December": 31
+        }
     
     
        
