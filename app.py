@@ -373,46 +373,57 @@ class app:
         
         
         months = [
-            "January", "February", "March", "April", "May", "June", 
-            "July", "August", "September", "October", "November", "December"]
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+        ]
+
         self.combobox_month = ctk.CTkComboBox(
-            self.newf2f1,values=months, width=80,text_color="black",bg_color="#a5d8ff",fg_color="#a5d8ff"
+            self.newf2f1,
+            values=months,
+            width=80,
+            text_color="black",
+            bg_color="#a5d8ff",
+            fg_color="#a5d8ff",
+            command=self.date_picker  # Call the date_picker method when a month is selected
         )
 
         self.combobox_month.set("month")  # Set the default value
-        
-        self.combobox_month.place(x = 305, y = 350)
+        self.combobox_month.place(x=305, y=350)
 
-        
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    def date_picker(self):
-        selected_month = self.combobox_month.get()
+        self.combobox_day = ctk.CTkComboBox(
+            self.newf2f1,
+            values=[str(day) for day in range(1, 31 + 1)],  # Initial default days for January
+            width=80,
+            text_color="black",
+            bg_color="#a5d8ff",
+            fg_color="#a5d8ff"
+        )
+
+        self.combobox_day.set("day")  # Set the default value
+        self.combobox_day.place(x=430, y=350)
+
+    def date_picker(self, selected_month):
+        # Dictionary of days for each month
         days_in_month = {
-            "January": 31,
-            "February": 28,
-            "March": 31,
-            "April": 30,
-            "May": 31,
-            "June": 30,
-            "July": 31,
-            "August": 31,
-            "September": 30,
-            "October": 31,
-            "November": 30,
-            "December": 31
-        }
-    
-    
+                "January": 31,
+                "February": 28,
+                "March": 31,
+                "April": 30,
+                "May": 31,
+                "June": 30,
+                "July": 31,
+                "August": 31,
+                "September": 30,
+                "October": 31,
+                "November": 30,
+                "December": 31
+            }
+            # Get the number of days for the selected month
+        self.days = days_in_month[selected_month]
+            
+            # Update the values in combobox_day
+        self.combobox_day.configure(values=[str(day) for day in range(1, self.days + 1)])
+        self.combobox_day.set("day")  # Reset to the default value
+        
        
 app = app()
