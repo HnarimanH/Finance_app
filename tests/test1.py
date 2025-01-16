@@ -21,7 +21,7 @@ combobox = ctk.CTkComboBox(
     values=["Option 1", "Option 2", "Option 3"],  # List of options
     width=200,
     fg_color="lightblue",  # Optional: for customization
-    command=on_selection(event=None)
+    command=on_selection(event=None )
 )
 combobox.set("Select an option")  # Default value
 combobox.pack(pady=20)

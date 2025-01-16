@@ -366,10 +366,10 @@ class app:
         
         
         self.combobox_year = ctk.CTkComboBox(
-            self.newf2f1,values=[str(year) for year in range(1950, 2026)], width=80,text_color="black",bg_color="#a5d8ff",fg_color="#a5d8ff"
+            self.newf2f1,values=[str(year) for year in range(1950, 2026)], width=80,text_color="black",bg_color="#a5d8ff",fg_color="#a5d8ff",command=self.date_picker
         )
-        self.combobox_year.set("year")  # Set the default value
-        self.combobox_year.place(x = 175, y = 350)
+        self.combobox_year.set("year")  
+        self.combobox_year.place(x = 180, y = 350)
         
         
         months = [
@@ -384,26 +384,122 @@ class app:
             text_color="black",
             bg_color="#a5d8ff",
             fg_color="#a5d8ff",
-            command=self.date_picker  # Call the date_picker method when a month is selected
+            command=self.date_picker1  
         )
 
-        self.combobox_month.set("month")  # Set the default value
+        self.combobox_month.set("month")  
         self.combobox_month.place(x=305, y=350)
 
         self.combobox_day = ctk.CTkComboBox(
             self.newf2f1,
-            values=[str(day) for day in range(1, 31 + 1)],  # Initial default days for January
+            values=[str(day) for day in range(1, 31 + 1)],  
             width=80,
             text_color="black",
             bg_color="#a5d8ff",
-            fg_color="#a5d8ff"
+            fg_color="#a5d8ff",
+            command=self.date_picker2
         )
 
-        self.combobox_day.set("day")  # Set the default value
+        self.combobox_day.set("day")  
         self.combobox_day.place(x=430, y=350)
 
-    def date_picker(self, selected_month):
-        # Dictionary of days for each month
+
+
+
+        self.Labelreason = ctk.CTkLabel(
+            self.newf2f1,text="Label:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            )
+        
+        self.Labelreason.place(x=290,y=450)
+
+
+
+
+        self.Enteryreason = ctk.CTkEntry(
+            self.newf2f1,width=((self.rootwidth - 290) / 2 - 30) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
+            )
+        self.Enteryreason.place(x=175,y=530)
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        self.button_add = ctk.CTkButton(self.newf2f1,width=((self.rootwidth - 290) / 2 - 30) / 2 , height=80 ,text="Add",fg_color="#4292c7",bg_color="#a5d8ff",text_color="black",font=("Arial", 30),border_color="black", border_width=2,command=self.add_function)
+        self.button_add.place(x=175,y=self.root.winfo_height() - 200)
+        
+        
+       
+       
+       
+       
+    
+    def add_function(self):
+        Amount = self.EnteryAmount.get()
+        try:
+            if self.date and self.date1 and self.date2 :
+                date = self.date,self.date1,self.date2
+                print(date,Amount)
+            else:
+                print("please select date")
+        except AttributeError:
+            print("please select date and write a valid amount")
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+    def date_picker(self, selected_year):
+         
+        self.date=selected_year
+           
+    def date_picker1(self, selected_month):
         days_in_month = {
                 "January": 31,
                 "February": 28,
@@ -418,12 +514,19 @@ class app:
                 "November": 30,
                 "December": 31
             }
-            # Get the number of days for the selected month
         self.days = days_in_month[selected_month]
-            
-            # Update the values in combobox_day
-        self.combobox_day.configure(values=[str(day) for day in range(1, self.days + 1)])
-        self.combobox_day.set("day")  # Reset to the default value
         
+        
+        self.combobox_day.configure(values=[str(day) for day in range(1, self.days + 1)])
+        self.combobox_day.set("day")
+        
+        
+        self.date1=selected_month
+        self.date2=None
+        
+    def date_picker2(self, selected_day):
+    
+        self.date2=selected_day
+
        
 app = app()
