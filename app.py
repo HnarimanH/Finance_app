@@ -328,8 +328,10 @@ class app:
                                   border_color="black", 
                                   border_width=2)
         self.newframe2.place(x=460 ,y=20)
+        newf2f1_width = (self.rootwidth - 290) / 2 - 30
+
         self.newf2f1 = ctk.CTkFrame(self.newframe2,
-                                  width=(self.rootwidth - 290) / 2 - 30,
+                                  width=newf2f1_width,
                                   height=(self.rootheight - 60) - 40,
                                   bg_color="#a5d8ff",
                                   fg_color="#a5d8ff",
@@ -347,22 +349,22 @@ class app:
                                   border_width=2)
         self.newf2f2.place(x=(self.rootwidth - 290) / 2 + 10 ,y=20)
         
-        
+        width_labels=newf2f1_width - 10
         self.labelAmount = ctk.CTkLabel(
-            self.newf2f1,text="Enter Amount:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            self.newf2f1,width=width_labels,text="Enter Amount:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
         )
-        self.labelAmount.place(x = 200 , y = 50)
+        self.labelAmount.place(x = 5 , y = 50)
         
         self.EnteryAmount = ctk.CTkEntry(
-            self.newf2f1,placeholder_text="Example: 35000",width=((self.rootwidth - 290) / 2 - 30) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
+            self.newf2f1,placeholder_text="Example: 35000",width=(newf2f1_width) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
         )
-        self.EnteryAmount.place(x = 175, y = 125)
+        self.EnteryAmount.place(x = (newf2f1_width - (newf2f1_width) / 2)/2, y = 125)
         
         
         self.labelDate = ctk.CTkLabel(
-            self.newf2f1,text="Select Date:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            self.newf2f1,width=width_labels,text="Select Date:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
         )
-        self.labelDate.place(x = 225 , y = 275)
+        self.labelDate.place(x = 5 , y = 275)
         
         
         self.combobox_year = ctk.CTkComboBox(
@@ -407,26 +409,28 @@ class app:
 
 
         self.Labelreason = ctk.CTkLabel(
-            self.newf2f1,text="Label:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            self.newf2f1,width=width_labels,text="Label:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
             )
         
-        self.Labelreason.place(x=290,y=450)
+        self.Labelreason.place(x=5,y=450)
 
 
 
 
         self.Enteryreason = ctk.CTkEntry(
-            self.newf2f1,width=((self.rootwidth - 290) / 2 - 30) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
+            self.newf2f1,width=(newf2f1_width) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
             )
-        self.Enteryreason.place(x=175,y=530)
+        self.Enteryreason.place(x=(newf2f1_width - (newf2f1_width) / 2)/2,y=530)
 
 
 
 
 
 
+        
 
-
+        self.Labelerror = ctk.CTkLabel(self.newf2f1,text="h",width=width_labels,text_color="black",fg_color="#a5d8ff",font=("Arial", 35))
+        self.Labelerror.place(x=5,y=700)
 
 
         
@@ -442,8 +446,8 @@ class app:
 
 
 
-        self.button_add = ctk.CTkButton(self.newf2f1,width=((self.rootwidth - 290) / 2 - 30) / 2 , height=80 ,text="Add",fg_color="#4292c7",bg_color="#a5d8ff",text_color="black",font=("Arial", 30),border_color="black", border_width=2,command=self.add_function)
-        self.button_add.place(x=175,y=self.root.winfo_height() - 200)
+        self.button_add = ctk.CTkButton(self.newf2f1,width=(newf2f1_width) / 2 , height=80 ,text="Add",fg_color="#4292c7",bg_color="#a5d8ff",text_color="black",font=("Arial", 30),border_color="black", border_width=2,command=self.add_function)
+        self.button_add.place(x=(newf2f1_width- newf2f1_width / 2)/2,y=self.root.winfo_height() - 200)
         
         
        
@@ -452,15 +456,50 @@ class app:
        
     
     def add_function(self):
-        Amount = self.EnteryAmount.get()
+        self.Labelerror.configure(text="")
         try:
-            if self.date and self.date1 and self.date2 :
-                date = self.date,self.date1,self.date2
-                print(date,Amount)
+            print(type(self.EnteryAmount.get()))
+            if self.EnteryAmount.get() == "":
+                text = ""
+                for i in "please enter amount":
+                    text+=i
+                    self.Labelerror.configure(text=text,text_color="red")
+                    self.Labelerror.update()
+                return
+            elif self.Enteryreason.get() == "":
+                text = ""
+                for i in "please enter Label":
+                    text+=i
+                    self.Labelerror.configure(text=text,text_color="red")
+                    self.Labelerror.update()
+                return
             else:
-                print("please select date")
+                Label = str(self.Enteryreason.get())
+                Amount = int(self.EnteryAmount.get())
+        except ValueError:
+            text = ""
+            for i in "please enter a valid amount":
+                text+=i
+                self.Labelerror.configure(text=text,text_color="red")
+                self.Labelerror.update()
+            return
+        
+        
+        try:
+            if self.date and self.date1 and self.date2:
+                date = self.date,self.date1,self.date2
+                print(date,Amount,Label)
+            
+            
+            
+                
         except AttributeError:
-            print("please select date and write a valid amount")
+            text = ""
+            for i in "please select date":
+                text+=i
+                self.Labelerror.configure(text=text,text_color="red")
+                self.Labelerror.update()
+            return
         
         
         
