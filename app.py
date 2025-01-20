@@ -28,7 +28,8 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS user_purchase (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    ammount INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    date TEXT NOT NULL,
     Item_action TEXT NOT NULL
 )
 """)
@@ -476,6 +477,7 @@ class app:
             else:
                 Label = str(self.Enteryreason.get())
                 Amount = int(self.EnteryAmount.get())
+                Name =  str(self.Entery1)
         except ValueError:
             text = ""
             for i in "please enter a valid amount":
@@ -487,11 +489,21 @@ class app:
         
         try:
             if self.date and self.date1 and self.date2:
-                date = self.date,self.date1,self.date2
-                print(date,Amount,Label)
-            
-            
-            
+                date =str(self.date) +"-"+ str(self.date1) +"-"+ str(self.date2)
+                
+                with sqlite3.connect("user_data.db") as connection:
+                    cursor = connection.cursor()
+                    
+                    
+                    cursor.execute("SELECT id FROM user_data WHERE user_name == ? ",
+                                (Name,))
+                    IdName = cursor.fetchone()
+                with sqlite3.connect("user_purchase.db") as connection:
+                    cursor = connection.cursor()
+                    cursor.execute("INSERT INTO user_purchase (user_id,amount,item_action,date) VALUES (?,?,?,?)",
+                                   (IdName,Amount,Label,date,))
+                print(date,Amount,Label,Name,IdName)
+
                 
         except AttributeError:
             text = ""
