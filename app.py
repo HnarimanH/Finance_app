@@ -498,11 +498,13 @@ class app:
                     cursor.execute("SELECT id FROM user_data WHERE user_name == ? ",
                                 (Name,))
                     IdName = cursor.fetchone()
+                    IdName = IdName[0]
                 with sqlite3.connect("user_purchase.db") as connection:
                     cursor = connection.cursor()
                     cursor.execute("INSERT INTO user_purchase (user_id,amount,item_action,date) VALUES (?,?,?,?)",
                                    (IdName,Amount,Label,date,))
-                print(date,Amount,Label,Name,IdName)
+                self.user_id = IdName
+                self.show_data()
 
                 
         except AttributeError:
@@ -515,6 +517,27 @@ class app:
         
         
         
+
+       
+       
+       
+       
+       
+       
+       
+    def show_data(self):
+        with sqlite3.connect("user_purchase.db") as connection:
+            cursor = connection.cursor()
+            cursor.execute("SELECT amount, item_action, date FROM user_purchase WHERE user_id == ?",
+                           (self.user_id,))
+            data = cursor.fetchall()
+            while True:
+                try: 
+                    for i, names in enumerate(data[0]):
+                        print(data[0][i])
+                    data.remove(data[0])
+                except IndexError:
+                    break
         
         
         
@@ -522,30 +545,6 @@ class app:
         
         
         
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
     def date_picker(self, selected_year):
          
         self.date=selected_year
