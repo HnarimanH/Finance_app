@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from tkinter import ttk
 import sqlite3
 import time
 
@@ -410,7 +411,7 @@ class app:
 
 
         self.Labelreason = ctk.CTkLabel(
-            self.newf2f1,width=width_labels,text="Label:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            self.newf2f1,width=width_labels,text="Description:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
             )
         
         self.Labelreason.place(x=5,y=450)
@@ -430,7 +431,7 @@ class app:
 
         
 
-        self.Labelerror = ctk.CTkLabel(self.newf2f1,text="h",width=width_labels,text_color="black",fg_color="#a5d8ff",font=("Arial", 35))
+        self.Labelerror = ctk.CTkLabel(self.newf2f1,text="",width=width_labels,text_color="black",fg_color="#a5d8ff",font=("Arial", 35))
         self.Labelerror.place(x=5,y=700)
 
 
@@ -451,12 +452,49 @@ class app:
         self.button_add.place(x=(newf2f1_width- newf2f1_width / 2)/2,y=self.root.winfo_height() - 200)
         
         
+        
+        
+        self.treeview = ttk.Treeview(self.newf2f2,columns=("Amount", "Description", "Date"), show="headings", height=15)
+        
+        
+        self.treeview.heading("Amount", text="Amount")
+        self.treeview.heading("Description", text="Description")
+        self.treeview.heading("Date", text="Date")
+        
+        self.treeview.column("Amount", width=100, anchor='center')
+        self.treeview.column("Description", width=200, anchor='center')
+        self.treeview.column("Date", width=160, anchor='center')
+        
+        
+        
+        with sqlite3.connect("user_purchase.db") as connection:
+            cursor = connection.cursor()
+            
+            cursor.execute("SELECT id FROM user_data WHERE user_name == ? ",
+                                (self.Entery1,))
+
+            IdName = cursor.fetchone()
+            IdName = IdName[0]
+            
+            cursor.execute("SELECT amount, item_action, date FROM user_purchase WHERE user_id == ?",
+                           (IdName,))
+            data = cursor.fetchall()
+
+        for record in data:
+            self.treeview.insert("", "end", values=record)
+
+        
+
+
+        self.treeview.pack(side="left", fill="both", expand=True)
+        
        
        
        
        
     
     def add_function(self):
+        
         self.Labelerror.configure(text="")
         try:
             print(type(self.EnteryAmount.get()))
@@ -526,6 +564,7 @@ class app:
        
        
     def show_data(self):
+        
         with sqlite3.connect("user_purchase.db") as connection:
             cursor = connection.cursor()
             cursor.execute("SELECT amount, item_action, date FROM user_purchase WHERE user_id == ?",

@@ -1,39 +1,48 @@
 import customtkinter as ctk
 
-# Debug callback function
-def on_selection(event):
-    print(1)
-    try:
-        selected_item = combobox.get()  # Get the selected value
-        print(f"Selected item: {selected_item}")
-    except Exception as e:
-        print(f"Error in selection: {e}")
-        
-# Main application
-root = ctk.CTk()
+# Sample data from the database
+data = [
+    (3000000, 'gaming keyboard', '1954-May-13'),
+    (3, 'toy', '2017-April-2'),
+    (1, 'toy', '1959-January-2'),
+    (2, 'toy', '1955-January-4'),
+    (3, 'toy', '1952-February-6'),
+    (35000, 'nariman', '1950-January-1'),
+    (300, 'nariman', '2022-February-3')
+]
 
-# Debug: Ensure the app is initializing
-print("App started.")
+def create_ctk_window(data):
+    # Initialize the customtkinter window
+    ctk.set_appearance_mode("Dark")  # Modes: "System", "Dark", "Light"
+    ctk.set_default_color_theme("blue")  # Themes: "blue", "green", "dark-blue"
 
-# Create a ComboBox
-combobox = ctk.CTkComboBox(
-    root,
-    values=["Option 1", "Option 2", "Option 3"],  # List of options
-    width=200,
-    fg_color="lightblue",  # Optional: for customization
-    command=on_selection(event=None )
-)
-combobox.set("Select an option")  # Default value
-combobox.pack(pady=20)
+    root = ctk.CTk()
+    root.title("Database Viewer")
+    root.geometry("500x400")
 
-# Debug: Ensure the ComboBox is created
-print("ComboBox created.")
+    # Create a scrollable frame for the data
+    frame = ctk.CTkScrollableFrame(root, width=480, height=300)
+    frame.grid(row=1, column=1)
 
-# Bind the event
-combobox.bind("<<ComboboxSelected>>", on_selection)
+    # Create column headers
+    header_frame = ctk.CTkFrame(frame)
+    header_frame.pack(fill="x", padx=5, pady=5)
 
-# Debug: Confirm event binding
-print("Event binding set.")
+    headers = ["Amount", "Description", "Date"]
+    for idx, header in enumerate(headers):
+        header_label = ctk.CTkLabel(header_frame, text=header, width=150, anchor="center", font=("Arial", 14, "bold"))
+        header_label.grid(row=0, column=idx, padx=5, pady=5)
 
-# Run the application
-root.mainloop()
+    # Display the data rows
+    for row_idx, record in enumerate(data):
+        for col_idx, value in enumerate(record):
+            label = ctk.CTkLabel(
+                frame, text=str(value), width=150, anchor="center", font=("Arial", 12)
+            )
+            label.grid(row=row_idx + 1, column=col_idx, padx=5, pady=2)
+
+    # Run the application
+    root.mainloop()
+
+# Call the function to create the window
+create_ctk_window(data)
