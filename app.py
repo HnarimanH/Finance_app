@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS user_data (
 
 connection.commit()
 connection.close()
-print("created user_data database")
+
 
 #___________________database for user purchase
 connection = sqlite3.connect("user_purchase.db")
@@ -37,8 +37,46 @@ CREATE TABLE IF NOT EXISTS user_purchase (
 
 connection.commit()
 connection.close()
+#_____________________deleting duplicated data
+connection = sqlite3.connect("user_purchase.db")
+cursor = connection.cursor()
 
-print("created user_purchases database")
+
+print("Identifying duplicates...")
+cursor.execute("""
+    SELECT user_id, amount, item_action, date, COUNT(*) as duplicate_count
+    FROM user_purchase
+    GROUP BY user_id, amount, item_action, date
+    HAVING duplicate_count > 1
+""")
+duplicates = cursor.fetchall()
+print("Duplicate Records:", duplicates)
+
+
+print("Deleting duplicates...")
+cursor.execute("""
+    DELETE FROM user_purchase
+    WHERE id NOT IN (
+        SELECT MIN(id)
+        FROM user_purchase
+        GROUP BY user_id, amount, item_action, date
+    )
+""")
+
+
+connection.commit()
+
+
+print("Remaining records after deduplication:")
+cursor.execute("SELECT * FROM user_purchase")
+all_records = cursor.fetchall()
+for record in all_records:
+    print(record)
+
+
+connection.close()
+
+
 
 
 
@@ -69,6 +107,7 @@ class app:
         
         
     def Wigets(self):
+        print((self.rootheight - 60) - 40)
         self.root.update_idletasks()
         height = (self.rootheight-40)
         width = (self.rootwidth -120 )/2
@@ -453,40 +492,49 @@ class app:
         
         
         
-        
-        self.treeview = ttk.Treeview(self.newf2f2,columns=("Amount", "Description", "Date"), show="headings", height=15)
+        style = ttk.Style()
+        style.configure(
+            "Custom.Treeview",
+            background="#a5d8ff",  # Treeview background color
+            foreground="black",  # Text color
+            fieldbackground="#a5d8ff"  # Background for editable fields
+        )
+        self.treeview = ttk.Treeview(self.newf2f2,columns=("Amount", "Description", "Date"), show="headings", height=15,style="Custom.Treeview")
         
         
         self.treeview.heading("Amount", text="Amount")
         self.treeview.heading("Description", text="Description")
         self.treeview.heading("Date", text="Date")
         
-        self.treeview.column("Amount", width=100, anchor='center')
-        self.treeview.column("Description", width=200, anchor='center')
-        self.treeview.column("Date", width=160, anchor='center')
+        self.treeview.column("Amount", width=140, anchor='center')
+        self.treeview.column("Description", width=170, anchor='center')
+        self.treeview.column("Date", width=140, anchor='center')
         
         
-        
-        with sqlite3.connect("user_purchase.db") as connection:
+        with sqlite3.connect("user_data.db") as connection:
             cursor = connection.cursor()
             
             cursor.execute("SELECT id FROM user_data WHERE user_name == ? ",
                                 (self.Entery1,))
 
             IdName = cursor.fetchone()
-            IdName = IdName[0]
+            self.IdName = IdName[0]
+        with sqlite3.connect("user_purchase.db") as connection:
+            cursor = connection.cursor()
             
             cursor.execute("SELECT amount, item_action, date FROM user_purchase WHERE user_id == ?",
-                           (IdName,))
+                           (self.IdName,))
             data = cursor.fetchall()
-
+        self.uniqe_data = set()
         for record in data:
-            self.treeview.insert("", "end", values=record)
+            if record not in self.uniqe_data:
+                self.uniqe_data.add(record)
+                self.treeview.insert("", "end", values=record)
 
         
 
 
-        self.treeview.pack(side="left", fill="both", expand=True)
+        self.treeview.place(x=15,y=15)
         
        
        
@@ -497,7 +545,7 @@ class app:
         
         self.Labelerror.configure(text="")
         try:
-            print(type(self.EnteryAmount.get()))
+            
             if self.EnteryAmount.get() == "":
                 text = ""
                 for i in "please enter amount":
@@ -523,11 +571,10 @@ class app:
                 self.Labelerror.configure(text=text,text_color="red")
                 self.Labelerror.update()
             return
-        
-        
         try:
+            self.dates = ""
             if self.date and self.date1 and self.date2:
-                date =str(self.date) +"-"+ str(self.date1) +"-"+ str(self.date2)
+                self.dates =str(self.date) +"-"+ str(self.date1) +"-"+ str(self.date2)
                 
                 with sqlite3.connect("user_data.db") as connection:
                     cursor = connection.cursor()
@@ -540,9 +587,11 @@ class app:
                 with sqlite3.connect("user_purchase.db") as connection:
                     cursor = connection.cursor()
                     cursor.execute("INSERT INTO user_purchase (user_id,amount,item_action,date) VALUES (?,?,?,?)",
-                                   (IdName,Amount,Label,date,))
+                                   (IdName,Amount,Label,self.dates,))
                 self.user_id = IdName
                 self.show_data()
+                
+            
 
                 
         except AttributeError:
@@ -553,7 +602,7 @@ class app:
                 self.Labelerror.update()
             return
         
-        
+    
         
 
        
@@ -564,19 +613,21 @@ class app:
        
        
     def show_data(self):
-        
+         
         with sqlite3.connect("user_purchase.db") as connection:
             cursor = connection.cursor()
-            cursor.execute("SELECT amount, item_action, date FROM user_purchase WHERE user_id == ?",
-                           (self.user_id,))
+            cursor.execute("SELECT amount, item_action, date FROM user_purchase WHERE user_id == ? AND amount == ? AND item_action == ? AND date == ?",
+                           (self.user_id,self.EnteryAmount.get(),self.Enteryreason.get(),self.dates))
             data = cursor.fetchall()
-            while True:
-                try: 
-                    for i, names in enumerate(data[0]):
-                        print(data[0][i])
-                    data.remove(data[0])
-                except IndexError:
-                    break
+        
+        if data[0] not in self.uniqe_data:
+            self.uniqe_data.add(data[0])
+            self.treeview.insert("", "end", values=data[0])
+        self.root.update()
+            
+            
+        
+            
         
         
         
