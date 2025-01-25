@@ -1,7 +1,8 @@
+import time
 import customtkinter as ctk
 from tkinter import ttk
 import sqlite3
-import time
+
 
 #__________database for user pass and user name
 connection = sqlite3.connect("user_data.db")
@@ -107,7 +108,7 @@ class app:
         
         
     def Wigets(self):
-        print((self.rootheight - 60) - 40)
+        
         self.root.update_idletasks()
         height = (self.rootheight-40)
         width = (self.rootwidth -120 )/2
@@ -127,25 +128,74 @@ class app:
                                   border_width=2)
         self.frame1.place(x=30,y=20)
         
-        self.f1label1 = ctk.CTkLabel(self.frame1,width=width / 10,height=80,text="Login",text_color="black",font=("Arial", 50),fg_color="#a5d8ff",bg_color="#a5d8ff")
+        self.f1label1 = ctk.CTkLabel(self.frame1,
+                                     width=width / 10,
+                                     height=80,
+                                     text="Login",
+                                     text_color="black",
+                                     font=("Arial", 50),
+                                     fg_color="#a5d8ff",
+                                     bg_color="#a5d8ff")
         self.f1label1.place(x=(width - (width / 10)) / 2-5,y=50)
         
-        self.f1labe2 = ctk.CTkLabel(self.frame1,width=(width / 4 )*3 ,height=80,text="Enter Your Username:",text_color="black",font=("Arial", 30),fg_color="#a5d8ff",bg_color="#a5d8ff")
+        self.f1labe2 = ctk.CTkLabel(self.frame1,
+                                    width=(width / 4 )*3 ,
+                                    height=80,
+                                    text="Enter Your Username:",
+                                    text_color="black",
+                                    font=("Arial", 30),
+                                    fg_color="#a5d8ff",
+                                    bg_color="#a5d8ff")
         self.f1labe2.place(x=(width - (width / 4 )*3) / 2 +17,y=150)
         
-        self.f1Entery1 = ctk.CTkEntry(self.frame1,width=width / 2,height=100,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 30))
+        self.f1Entery1 = ctk.CTkEntry(self.frame1,
+                                      width=width / 2,
+                                      height=100,
+                                      fg_color="#4292c7",
+                                      bg_color="#a5d8ff",
+                                      corner_radius=25,
+                                      font=("Arial", 30))
         self.f1Entery1.place(x=(width / 2)/2 + 12,y=250)
         
-        self.f1labe3 = ctk.CTkLabel(self.frame1,width=(width / 4 )*3 ,height=80,text="Enter Your Password:",text_color="black",font=("Arial", 30),fg_color="#a5d8ff",bg_color="#a5d8ff")
+        self.f1labe3 = ctk.CTkLabel(self.frame1,
+                                    width=(width / 4 )*3,
+                                    height=80,
+                                    text="Enter Your Password:",
+                                    text_color="black",
+                                    font=("Arial", 30),
+                                    fg_color="#a5d8ff",
+                                    bg_color="#a5d8ff")
         self.f1labe3.place(x=(width - (width / 4 )*3) / 2 +17,y=350)
         
-        self.f1Entery2 = ctk.CTkEntry(self.frame1,width=width / 2,height=100,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 30))
+        self.f1Entery2 = ctk.CTkEntry(self.frame1,
+                                      width=width / 2,
+                                      height=100,
+                                      fg_color="#4292c7",
+                                      bg_color="#a5d8ff",
+                                      corner_radius=25,
+                                      font=("Arial", 30))
         self.f1Entery2.place(x=(width / 2)/2 + 12,y=450)
         
-        self.f1labe4 = ctk.CTkLabel(self.frame1,width=(width / 4 )*3 ,height=80,text="",text_color="black",font=("Arial", 30),fg_color="#a5d8ff",bg_color="#1971c2")
+        self.f1labe4 = ctk.CTkLabel(self.frame1,
+                                    width=(width / 4 )*3 ,
+                                    height=80,text="",
+                                    text_color="black",
+                                    font=("Arial", 30),
+                                    fg_color="#a5d8ff",
+                                    bg_color="#1971c2")
         self.f1labe4.place(x=(width - (width / 4 )*3) / 2 +17,y=550)
         
-        self.f1button1 = ctk.CTkButton(self.frame1,width=(width / 3 ),height=80,fg_color="#4292c7",bg_color="#a5d8ff",text="Go!",text_color="black",font=("Arial", 30),border_color="black", border_width=2,command=self.login)
+        self.f1button1 = ctk.CTkButton(self.frame1,
+                                       width=(width / 3 ),
+                                       height=80,
+                                       fg_color="#4292c7",
+                                       bg_color="#a5d8ff",
+                                       text="Go!",
+                                       text_color="black",
+                                       font=("Arial", 30),
+                                       border_color="black",
+                                       border_width=2,
+                                       command=self.login)
         self.f1button1.place(x=(width - (width / 3)) / 2 + 12,y = 750)
         
         
@@ -165,26 +215,76 @@ class app:
                                   border_width=2)
         self.frame2.place(x=x,y=20)
         
-        self.f2label1 = ctk.CTkLabel(self.frame2,width=width / 10,height=80,text="Create Account",text_color="black",font=("Arial", 50),fg_color="#a5d8ff",bg_color="#a5d8ff")
+        self.f2label1 = ctk.CTkLabel(self.frame2,
+                                     width=width / 10,
+                                     height=80,
+                                     text="Create Account",
+                                     text_color="black",
+                                     font=("Arial", 50),
+                                     fg_color="#a5d8ff",
+                                     bg_color="#a5d8ff")
         self.f2label1.place(x=(width / 2)/2 + 36,y=50)
         
         
-        self.f2labe2 = ctk.CTkLabel(self.frame2,width=(width / 4 )*3 ,height=80,text="Enter Your Username:",text_color="black",font=("Arial", 30),fg_color="#a5d8ff",bg_color="#a5d8ff")
+        self.f2labe2 = ctk.CTkLabel(self.frame2,
+                                    width=(width / 4 )*3 ,
+                                    height=80,
+                                    text="Enter Your Username:",
+                                    text_color="black",
+                                    font=("Arial", 30),
+                                    fg_color="#a5d8ff",
+                                    bg_color="#a5d8ff")
         self.f2labe2.place(x=(width - (width / 4 )*3) / 2 +17 ,y=150)
         
-        self.f2Entery1 = ctk.CTkEntry(self.frame2,width=width / 2,height=100,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 30))
+        self.f2Entery1 = ctk.CTkEntry(self.frame2,
+                                      width=width / 2
+                                      ,height=100
+                                      ,fg_color="#4292c7",
+                                      bg_color="#a5d8ff",
+                                      corner_radius=25,
+                                      font=("Arial", 30))
         self.f2Entery1.place(x=(width / 2)/2 + 12,y=250)
         
-        self.f2labe3 = ctk.CTkLabel(self.frame2,width=(width / 4 )*3 ,height=80,text="Enter Your Password:",text_color="black",font=("Arial", 30),fg_color="#a5d8ff",bg_color="#a5d8ff")
+        self.f2labe3 = ctk.CTkLabel(self.frame2,
+                                    width=(width / 4 )*3 ,
+                                    height=80,
+                                    text="Enter Your Password:",
+                                    text_color="black",
+                                    font=("Arial", 30),
+                                    fg_color="#a5d8ff",
+                                    bg_color="#a5d8ff")
         self.f2labe3.place(x=(width - (width / 4 )*3) / 2 +17,y=350)
         
-        self.f2Entery2 = ctk.CTkEntry(self.frame2,width=width / 2,height=100,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 30))
+        self.f2Entery2 = ctk.CTkEntry(self.frame2,
+                                      width=width / 2,
+                                      height=100,
+                                      fg_color="#4292c7",
+                                      bg_color="#a5d8ff",
+                                      corner_radius=25,
+                                      font=("Arial", 30))
         self.f2Entery2.place(x=(width / 2)/2 + 12,y=450)
         
-        self.f2labe4 = ctk.CTkLabel(self.frame2,width=(width / 4 )*3 ,height=80,text="",text_color="black",font=("Arial", 30),fg_color="#a5d8ff",bg_color="#a5d8ff")
+        self.f2labe4 = ctk.CTkLabel(self.frame2,
+                                    width=(width / 4 )*3 ,
+                                    height=80,
+                                    text="",
+                                    text_color="black",
+                                    font=("Arial", 30),
+                                    fg_color="#a5d8ff",
+                                    bg_color="#a5d8ff")
         self.f2labe4.place(x=(width - (width / 4 )*3) / 2 +17,y=550)
         
-        self.f2button1 = ctk.CTkButton(self.frame2,width=(width / 3 ),height=80,fg_color="#4292c7",bg_color="#a5d8ff",text="Create!",text_color="black",font=("Arial", 30),border_color="black", border_width=2,command=self.CreateAcc)
+        self.f2button1 = ctk.CTkButton(self.frame2,
+                                       width=(width / 3 ),
+                                       height=80,
+                                       fg_color="#4292c7",
+                                       bg_color="#a5d8ff",
+                                       text="Create!",
+                                       text_color="black",
+                                       font=("Arial", 30),
+                                       border_color="black",
+                                       border_width=2,
+                                       command=self.CreateAcc)
         self.f2button1.place(x=(width - (width / 3)) / 2 + 12,y = 750)
     
     
@@ -343,10 +443,20 @@ class app:
                                   border_color="black", 
                                   border_width=2)
         self.newframe.place(x=30 ,y=20)
-        self.nameLabel = ctk.CTkLabel(self.newframe,text="Welcom",text_color="black",fg_color="#a5d8ff",font=("Arial", 50))
+        self.nameLabel = ctk.CTkLabel(self.newframe,
+                                      text="Welcom",
+                                      text_color="black",
+                                      fg_color="#a5d8ff",
+                                      font=("Arial", 50))
         self.nameLabel.place(x = (self.newframe.winfo_width() / 2) + 110 , y = 60)
-        self.nameLabel1 = ctk.CTkLabel(self.newframe,text=self.Entery1,text_color="black",fg_color="#a5d8ff",font=("Arial", 50))
-        self.nameLabel1.place(x = (self.newframe.winfo_width() / 2) + 110 , y = 110)
+        self.nameLabel1 = ctk.CTkLabel(self.newframe,
+                                       width=390,
+                                       height=100,
+                                       text=self.Entery1,
+                                       text_color="black",
+                                       fg_color="#a5d8ff",
+                                       font=("Arial", 50))
+        self.nameLabel1.place(x = 5, y = 110)
         
         
         self.wellcomframe = ctk.CTkFrame(self.newframe,
@@ -392,24 +502,47 @@ class app:
         
         width_labels=newf2f1_width - 10
         self.labelAmount = ctk.CTkLabel(
-            self.newf2f1,width=width_labels,text="Enter Amount:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            self.newf2f1,
+            width=width_labels,
+            text="Enter Amount:",
+            text_color="black",
+            fg_color="#a5d8ff",
+            font=("Arial", 45)
         )
         self.labelAmount.place(x = 5 , y = 50)
         
         self.EnteryAmount = ctk.CTkEntry(
-            self.newf2f1,placeholder_text="Example: 35000",width=(newf2f1_width) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
+            self.newf2f1,
+            placeholder_text="Example: 35000",
+            width=(newf2f1_width) / 2,
+            height=80,
+            fg_color="#4292c7",
+            bg_color="#a5d8ff",
+            corner_radius=25,
+            font=("Arial", 28)
         )
         self.EnteryAmount.place(x = (newf2f1_width - (newf2f1_width) / 2)/2, y = 125)
         
         
         self.labelDate = ctk.CTkLabel(
-            self.newf2f1,width=width_labels,text="Select Date:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            self.newf2f1,
+            width=width_labels,
+            text="Select Date:",
+            text_color="black",
+            fg_color="#a5d8ff",
+            font=("Arial", 45)
         )
         self.labelDate.place(x = 5 , y = 275)
         
         
         self.combobox_year = ctk.CTkComboBox(
-            self.newf2f1,values=[str(year) for year in range(1950, 2026)], width=80,text_color="black",bg_color="#a5d8ff",fg_color="#a5d8ff",command=self.date_picker
+            self.newf2f1,
+            values=[str(year) for year in range(1950, 2026)],
+            width=80,
+            text_color="black",
+            bg_color="#a5d8ff",
+            fg_color="#a5d8ff",
+            command=self.date_picker
         )
         self.combobox_year.set("year")  
         self.combobox_year.place(x = 180, y = 350)
@@ -450,7 +583,12 @@ class app:
 
 
         self.Labelreason = ctk.CTkLabel(
-            self.newf2f1,width=width_labels,text="Description:",text_color="black",fg_color="#a5d8ff",font=("Arial", 45)
+            self.newf2f1,
+            width=width_labels,
+            text="Description:",
+            text_color="black",
+            fg_color="#a5d8ff",
+            font=("Arial", 45)
             )
         
         self.Labelreason.place(x=5,y=450)
@@ -459,7 +597,13 @@ class app:
 
 
         self.Enteryreason = ctk.CTkEntry(
-            self.newf2f1,width=(newf2f1_width) / 2,height=80,fg_color="#4292c7",bg_color="#a5d8ff",corner_radius=25,font=("Arial", 28)
+            self.newf2f1,
+            width=(newf2f1_width) / 2,
+            height=80,
+            fg_color="#4292c7",
+            bg_color="#a5d8ff",
+            corner_radius=25,
+            font=("Arial", 28)
             )
         self.Enteryreason.place(x=(newf2f1_width - (newf2f1_width) / 2)/2,y=530)
 
@@ -470,7 +614,12 @@ class app:
 
         
 
-        self.Labelerror = ctk.CTkLabel(self.newf2f1,text="",width=width_labels,text_color="black",fg_color="#a5d8ff",font=("Arial", 35))
+        self.Labelerror = ctk.CTkLabel(self.newf2f1,
+                                       text="",
+                                       width=width_labels,
+                                       text_color="black",
+                                       fg_color="#a5d8ff",
+                                       font=("Arial", 35))
         self.Labelerror.place(x=5,y=700)
 
 
@@ -487,7 +636,17 @@ class app:
 
 
 
-        self.button_add = ctk.CTkButton(self.newf2f1,width=(newf2f1_width) / 2 , height=80 ,text="Add",fg_color="#4292c7",bg_color="#a5d8ff",text_color="black",font=("Arial", 30),border_color="black", border_width=2,command=self.add_function)
+        self.button_add = ctk.CTkButton(self.newf2f1,
+                                        width=(newf2f1_width) / 2 , 
+                                        height=80 ,
+                                        text="Add",
+                                        fg_color="#4292c7",
+                                        bg_color="#a5d8ff",
+                                        text_color="black",
+                                        font=("Arial", 30),
+                                        border_color="black", 
+                                        border_width=2,
+                                        command=self.add_function)
         self.button_add.place(x=(newf2f1_width- newf2f1_width / 2)/2,y=self.root.winfo_height() - 200)
         
         
@@ -500,7 +659,7 @@ class app:
             fieldbackground="#a5d8ff"  # Background for editable fields
         )
         self.treeview = ttk.Treeview(self.newf2f2,columns=("Amount", "Description", "Date"), show="headings", height=15,style="Custom.Treeview")
-        
+        self.root.bind("<<DELETE>>", lambda event:self.delete_treeview)
         
         self.treeview.heading("Amount", text="Amount")
         self.treeview.heading("Description", text="Description")
@@ -540,7 +699,13 @@ class app:
        
        
        
-    
+    def delete_treeview(self):
+        selected_item = self.treeview.selection()
+        if selected_item:
+            self.treeview.delete(selected_item)
+            self.treeview.update()
+        else:
+            pass
     def add_function(self):
         
         self.Labelerror.configure(text="")
