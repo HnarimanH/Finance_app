@@ -650,7 +650,7 @@ class app:
         self.button_add.place(x=(newf2f1_width- newf2f1_width / 2)/2,y=self.root.winfo_height() - 200)
         
         
-        
+         
         style = ttk.Style()
         style.configure(
             "Custom.Treeview",
@@ -659,7 +659,7 @@ class app:
             fieldbackground="#a5d8ff"  # Background for editable fields
         )
         self.treeview = ttk.Treeview(self.newf2f2,columns=("Amount", "Description", "Date"), show="headings", height=15,style="Custom.Treeview")
-        self.root.bind("<<DELETE>>", lambda event:self.delete_treeview)
+        self.root.bind("<BackSpace>", self.delete_treeview)
         
         self.treeview.heading("Amount", text="Amount")
         self.treeview.heading("Description", text="Description")
@@ -699,11 +699,21 @@ class app:
        
        
        
-    def delete_treeview(self):
+    def delete_treeview(self, event):
+        
         selected_item = self.treeview.selection()
+        list = []
         if selected_item:
+            for item in selected_item:
+                list.append(self.treeview.item(item, "values"))
+            amount,label,date = int(list[0][0]),list[0][1],list[0][2]
             self.treeview.delete(selected_item)
             self.treeview.update()
+            with sqlite3.connect("user_purchase.db") as connection:
+                cursor = connection.cursor()
+                cursor.execute("DELETE FROM user_purchase WHERE user_id = ? AND amount = ? AND item_action = ? AND date = ?",
+                               (self.IdName,amount,label,date))
+                connection.commit()
         else:
             pass
     def add_function(self):
@@ -781,6 +791,10 @@ class app:
          
         with sqlite3.connect("user_purchase.db") as connection:
             cursor = connection.cursor()
+            
+            
+            
+            
             cursor.execute("SELECT amount, item_action, date FROM user_purchase WHERE user_id == ? AND amount == ? AND item_action == ? AND date == ?",
                            (self.user_id,self.EnteryAmount.get(),self.Enteryreason.get(),self.dates))
             data = cursor.fetchall()
