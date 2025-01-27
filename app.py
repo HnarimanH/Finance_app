@@ -38,41 +38,7 @@ CREATE TABLE IF NOT EXISTS user_purchase (
 
 connection.commit()
 connection.close()
-#_____________________deleting duplicated data
-connection = sqlite3.connect("user_purchase.db")
-cursor = connection.cursor()
 
-
-print("Identifying duplicates...")
-cursor.execute("""
-    SELECT user_id, amount, item_action, date, COUNT(*) as duplicate_count
-    FROM user_purchase
-    GROUP BY user_id, amount, item_action, date
-    HAVING duplicate_count > 1
-""")
-duplicates = cursor.fetchall()
-print("Duplicate Records:", duplicates)
-
-
-print("Deleting duplicates...")
-cursor.execute("""
-    DELETE FROM user_purchase
-    WHERE id NOT IN (
-        SELECT MIN(id)
-        FROM user_purchase
-        GROUP BY user_id, amount, item_action, date
-    )
-""")
-
-
-connection.commit()
-
-
-print("Remaining records after deduplication:")
-cursor.execute("SELECT * FROM user_purchase")
-all_records = cursor.fetchall()
-for record in all_records:
-    print(record)
 
 
 connection.close()
@@ -106,7 +72,21 @@ class app:
         
         
         
-        
+    def delete_duplicates(self):
+        connection = sqlite3.connect("user_purchase.db")
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            DELETE FROM user_purchase
+            WHERE id NOT IN (
+                SELECT MIN(id)
+                FROM user_purchase
+                GROUP BY user_id, amount, item_action, date
+            )
+        """)
+
+
+        connection.commit()
     def Wigets(self):
         
         self.root.update_idletasks()
@@ -434,6 +414,7 @@ class app:
         
         
     def new_window(self):
+        
         self.newframe = ctk.CTkFrame(self.root,
                                   width=400,
                                   height=self.rootheight - 60,
@@ -461,13 +442,41 @@ class app:
         
         self.wellcomframe = ctk.CTkFrame(self.newframe,
                                          width=360,
-                                         height=(self.rootheight * 0.7  ),
+                                         height=(self.rootheight * 0.7),
                                          bg_color="#a5d8ff",
                                          fg_color="#a5d8ff",
                                          corner_radius=30,
                                          border_color="black", 
                                          border_width=2)
         self.wellcomframe.place(x=20 ,y=240)
+        
+        
+        newf2f1_width = (self.rootwidth - 290) / 2 - 30
+        
+        self.total_amountL = ctk.CTkLabel(self.wellcomframe,
+                                         text="",
+                                         width=350,
+                                         height=80,
+                                         bg_color="#4292c7",
+                                         fg_color="#a5d8ff",
+                                         text_color="black",
+                                         font=("Arial", 30),
+                                         )
+        self.total_amountL.place(x=5 , y=180)
+        
+        self.button_exit = ctk.CTkButton(self.wellcomframe,
+                                         width=180,
+                                         height=40,
+                                         text="Exit",
+                                         fg_color="#4292c7",
+                                         bg_color="#a5d8ff",
+                                         text_color="black",
+                                         font=("Arial", 30),
+                                         border_color="black", 
+                                         border_width=2,
+                                         command=lambda: self.root.destroy()
+                                         )
+        self.button_exit.place(x = 90 ,y=(self.rootheight * 0.7)-60)
         
         
         self.newframe2 = ctk.CTkFrame(self.root,
@@ -479,7 +488,7 @@ class app:
                                   border_color="black", 
                                   border_width=2)
         self.newframe2.place(x=460 ,y=20)
-        newf2f1_width = (self.rootwidth - 290) / 2 - 30
+        
 
         self.newf2f1 = ctk.CTkFrame(self.newframe2,
                                   width=newf2f1_width,
@@ -659,7 +668,7 @@ class app:
             fieldbackground="#a5d8ff"  # Background for editable fields
         )
         self.treeview = ttk.Treeview(self.newf2f2,columns=("Amount", "Description", "Date"), show="headings", height=15,style="Custom.Treeview")
-        self.root.bind("<BackSpace>", self.delete_treeview)
+        self.treeview.bind("<BackSpace>", self.delete_treeview)
         
         self.treeview.heading("Amount", text="Amount")
         self.treeview.heading("Description", text="Description")
@@ -696,8 +705,28 @@ class app:
         self.treeview.place(x=15,y=15)
         
        
-       
-       
+        self.total_amount()
+    def total_amount(self):
+        print("called total_amount function")
+        self.delete_duplicates()
+        try:
+            with sqlite3.connect("user_purchase.db") as connection:
+                cursor=connection.cursor()
+                cursor.execute("SELECT amount FROM user_purchase WHERE user_id == ?",
+                            (self.IdName,))
+                amounts = cursor.fetchall()
+            self.total_value = 0
+            while True:
+                try:
+                    for i,amount in enumerate(amounts[0]):
+                        self.total_value += int(amounts[0][i])
+                    amounts.remove(amounts[0])
+                except IndexError:
+                    break
+            self.total_amountL.configure(text=self.total_value)
+            self.total_amountL.update()
+        except sqlite3.OperationalError:
+            print('failed')
        
     def delete_treeview(self, event):
         
@@ -716,6 +745,7 @@ class app:
                 connection.commit()
         else:
             pass
+        self.total_amount()
     def add_function(self):
         
         self.Labelerror.configure(text="")
@@ -803,14 +833,8 @@ class app:
             self.uniqe_data.add(data[0])
             self.treeview.insert("", "end", values=data[0])
         self.root.update()
+        self.total_amount()
             
-            
-        
-            
-        
-        
-        
-        
         
         
         
